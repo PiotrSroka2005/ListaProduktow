@@ -40,7 +40,7 @@ namespace ListaProduktow
                 if (int.TryParse(entryIlosc.Text, out int _) && decimal.TryParse(entryCena.Text, out decimal _))
                 {
                     var produkt = new Produkt(entryNazwa.Text, decimal.Parse(entryCena.Text), int.Parse(entryIlosc.Text));
-                    produkty.Add(produkt);
+                    Plik.WriteToFile(produkt);
                     Navigation.PopAsync();
                 }
                 else
