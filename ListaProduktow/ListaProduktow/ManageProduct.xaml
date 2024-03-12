@@ -8,8 +8,7 @@
             <Entry x:Name="entryNazwa" Placeholder="Nazwa" WidthRequest="250" VerticalTextAlignment="Center" HorizontalOptions="Center" Margin="0,0,0,20"/>
             <Entry x:Name="entryCena" Placeholder="Cena" WidthRequest="250" VerticalTextAlignment="Center" HorizontalOptions="Center" Margin="0,0,0,20"/>
             <Entry x:Name="entryIlosc" Placeholder="Ilosc" WidthRequest="250" VerticalTextAlignment="Center" HorizontalOptions="Center" Margin="0,0,0,50"/>
-            <Button x:Name="btnDodaj" Text="Dodaj" WidthRequest="250" BackgroundColor="Green" TextColor="White" CornerRadius="15" Clicked="BtnDodajClicked"/>
-            <Button x:Name="btnEdytuj" Text="Edytuj" WidthRequest="250" BackgroundColor="Blue" TextColor="White" CornerRadius="15" IsVisible="False" Clicked="BtnEdytujClicked"/>
+            <Button x:Name="btn" Text="Dodaj" WidthRequest="250" BackgroundColor="Green" TextColor="White" CornerRadius="15" Clicked="ButtonClicked"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

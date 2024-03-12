@@ -12,49 +12,38 @@ namespace ListaProduktow
         readonly static string filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "products.txt");
 
 
-        public static List<Produkt> ReadData() 
-        {
-            if (File.Exists(filePath))
-            {
-                List<string> lines = File.ReadAllLines(filePath).ToList();
-                List<Produkt> produkty = new List<Produkt>();
-
-                foreach (string line in lines)
-                {
-                    string[] entries = line.Split(';');
-                    
-                    Produkt produkt = new Produkt();
-
-                    produkt.Nazwa = entries[0];
-                    produkt.Cena = int.Parse(entries[1]);
-                    produkt.Ilosc = int.Parse(entries[2]);
-
-                    produkty.Add(produkt);
-                }
-                return produkty;
-            }    
-            else
-            {
-                return null;
-            }
-        }
-
-
-        public static void WriteToFile(List<Produkt> produkty)
+        public static void WriteToFile(List<Produkt> products)
         {
             List<string> outputFile = new List<string>();
-
-            foreach(var produkt in produkty)
+            foreach (var result in products)
             {
-                string line = $"{produkt.Nazwa};{produkt.Ilosc};{produkt.Cena}";
+                string line = $"{result.Id};{result.Nazwa};{result.Ilosc};{result.Cena}";
                 outputFile.Add(line);
             }
             File.WriteAllLines(filePath, outputFile);
         }
-
-        public static void RemoveFromFile()
+        public static List<Produkt> ReadFromFile()
         {
-
+            if (!File.Exists(filePath))
+            {
+                File.WriteAllText(filePath, string.Empty);
+            }
+            List<string> lines = File.ReadAllLines(filePath).ToList();
+            List<Produkt> products = new List<Produkt>();
+            foreach (var line in lines)
+            {
+                string[] entries = line.Split(';');
+                Produkt produkt = new Produkt
+                {
+                    Id = int.Parse(entries[0]),
+                    Nazwa = entries[1],
+                    Ilosc = int.Parse(entries[2]),
+                    Cena = decimal.Parse(entries[3])
+                };
+                products.Add(produkt);
+            }
+            return products;
         }
+
     }
 }

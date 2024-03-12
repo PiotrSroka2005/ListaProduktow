@@ -13,67 +13,46 @@ namespace ListaProduktow
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ManageProduct : ContentPage
     {
-        private Produkt wybranyProdukt;
-        private List<Produkt> produkty = new List<Produkt>();
-        public ManageProduct(List<Produkt> produkty)
+        private Produkt Product;
+        public ManageProduct()
         {
             InitializeComponent();
-            this.produkty = produkty;
         }
-
-        public ManageProduct(Produkt wybranyProdukt)
+        public ManageProduct(Produkt product)
         {
             InitializeComponent();
-            this.wybranyProdukt = wybranyProdukt;
+            Product = product;
             labelTytul.Text = "Edytuj produkt";
-            entryNazwa.Text = wybranyProdukt.Nazwa;
-            entryCena.Text = wybranyProdukt.Cena.ToString();
-            entryIlosc.Text = wybranyProdukt.Ilosc.ToString();
-            btnDodaj.IsVisible = false;
-            btnEdytuj.IsVisible = true;
+            entryNazwa.Text = product.Nazwa;
+            entryCena.Text = product.Cena.ToString();
+            entryIlosc.Text = product.Ilosc.ToString();
+            btn.Text = "Edytuj";
         }
 
-        private void BtnDodajClicked(object sender, EventArgs e)
+        private void ButtonClicked(object sender, EventArgs e)
         {
             if (!string.IsNullOrEmpty(entryNazwa.Text) && !string.IsNullOrEmpty(entryCena.Text) && !string.IsNullOrEmpty(entryIlosc.Text))
             {
                 if (int.TryParse(entryIlosc.Text, out int _) && decimal.TryParse(entryCena.Text, out decimal _))
                 {
-                    var produkt = new Produkt(entryNazwa.Text, decimal.Parse(entryCena.Text), int.Parse(entryIlosc.Text));
-                    Plik.WriteToFile(produkty);
+                    List<Produkt> products = Plik.ReadFromFile();
+                    if (Product is null)
+                        products.Add(new Produkt(products.Count > 0 ? products.Last().Id + 1 : 1, entryNazwa.Text, decimal.Parse(entryCena.Text), int.Parse(entryIlosc.Text)));
+                    else
+                    {
+                        Produkt editProduct = products.Where(p => p.Id == Product.Id).FirstOrDefault();
+                        editProduct.Nazwa = entryNazwa.Text;
+                        editProduct.Cena = decimal.Parse(entryCena.Text);
+                        editProduct.Ilosc = int.Parse(entryIlosc.Text);
+                    }
+                    Plik.WriteToFile(products);
                     Navigation.PopAsync();
                 }
                 else
-                {
-                    DisplayAlert("Niepoprawne dane", "Pola cena i ilość muszą być liczbami", "OK");
-                }
+                    DisplayAlert("Błąd", "Pola cena i ilość muszą być liczbami", "OK");
             }
             else
-            {
-                DisplayAlert("Niepoprawne dane", "Pola nie mogą byc puste", "OK");
-            }
-        }
-
-        private void BtnEdytujClicked(object sender, EventArgs e)
-        {
-            if (!string.IsNullOrEmpty(entryNazwa.Text) && !string.IsNullOrEmpty(entryCena.Text) && !string.IsNullOrEmpty(entryIlosc.Text))
-            {
-                if (int.TryParse(entryIlosc.Text, out int _) && decimal.TryParse(entryCena.Text, out decimal _))
-                {
-                    wybranyProdukt.Nazwa = entryNazwa.Text;
-                    wybranyProdukt.Cena = decimal.Parse(entryCena.Text);
-                    wybranyProdukt.Ilosc = int.Parse(entryIlosc.Text);
-                    Navigation.PopAsync();
-                }
-                else
-                {
-                    DisplayAlert("Niepoprawne dane", "Pola cena i ilość muszą być liczbami", "OK");
-                }
-            }
-            else
-            {
-                DisplayAlert("Niepoprawne dane", "Pola nie mogą byc puste", "OK");
-            }
+                DisplayAlert("Błąd", "Pola nie mogą byc puste", "OK");
         }
     }
 }

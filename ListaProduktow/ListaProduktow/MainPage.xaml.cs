@@ -11,50 +11,40 @@ namespace ListaProduktow
 {
     public partial class MainPage : ContentPage
     {
-        private Produkt wybranyProdukt;
-        public List<Produkt> produkty = new List<Produkt>();
-
-        public void AktualizujListe()
-        {
-            lista.ItemsSource = null;
-            lista.ItemsSource = Plik.ReadData();
-        }
+        public List<Produkt> Products = new List<Produkt>();
         public MainPage()
         {
             InitializeComponent();
-            OnAppearing();            
         }
-
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            Products = Plik.ReadFromFile();
+            lista.ItemsSource = Products;
+        }
         public void Dodaj_Clicked(object sender, EventArgs e)
         {
-            Navigation.PushAsync(new ManageProduct(produkty));
+            Navigation.PushAsync(new ManageProduct());
         }
         public void Edytuj_Clicked(object sender, EventArgs e)
         {
             if (lista.SelectedItem != null)
-            {
-                wybranyProdukt = (Produkt)lista.SelectedItem;
-                Navigation.PushAsync(new ManageProduct(wybranyProdukt));
-                wybranyProdukt = null;
-            }
+                Navigation.PushAsync(new ManageProduct((Produkt)lista.SelectedItem));
             else
-            {
-                DisplayAlert("Błąd", "Nie wybrano elementu", "OK");
-            }
+                DisplayAlert("Błąd", "Najpierw wybierz element!", "OK");
         }
         public void Usun_Clicked(object sender, EventArgs e)
         {
             if (lista.SelectedItem != null)
             {
-                wybranyProdukt = (Produkt)lista.SelectedItem;
-                produkty.Remove(wybranyProdukt);
-                AktualizujListe();
-                wybranyProdukt = null;
+                Products.Remove((Produkt)lista.SelectedItem);
+                Plik.WriteToFile(Products);
+                Products = Plik.ReadFromFile();
+                lista.ItemsSource = Products;
+                lista.SelectedItem = null;
             }
             else
-            {
-                DisplayAlert("Błąd", "Nie wybrano elementu", "OK");
-            }
+                DisplayAlert("Błąd", "Najpierw wybierz element!", "OK");
         }
     }
 }
