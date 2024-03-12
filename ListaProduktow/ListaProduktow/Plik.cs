@@ -12,7 +12,7 @@ namespace ListaProduktow
         readonly static string filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "products.txt");
 
 
-        public static List<Produkt> ReadData()
+        public static List<Produkt> ReadData() 
         {
             if (File.Exists(filePath))
             {
