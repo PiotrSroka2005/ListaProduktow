@@ -12,17 +12,17 @@ namespace ListaProduktow
     public partial class MainPage : ContentPage
     {
         private Produkt wybranyProdukt;
-        public ObservableCollection<Produkt> produkty = new ObservableCollection<Produkt>();
+        public List<Produkt> produkty = new List<Produkt>();
 
         public void AktualizujListe()
         {
             lista.ItemsSource = null;
-            lista.ItemsSource = produkty;
+            lista.ItemsSource = Plik.ReadData();
         }
         public MainPage()
         {
             InitializeComponent();
-            OnAppearing();
+            OnAppearing();            
         }
 
         public void Dodaj_Clicked(object sender, EventArgs e)

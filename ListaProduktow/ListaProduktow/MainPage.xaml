@@ -22,7 +22,7 @@
             </Grid>
         </StackLayout>
         <StackLayout>
-            <ListView x:Name="lista" ItemsSource="{Binding Produkt}" SeparatorColor="Black">
+            <ListView x:Name="lista"  SeparatorColor="Black">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>

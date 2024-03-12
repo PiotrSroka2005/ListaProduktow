@@ -14,8 +14,8 @@ namespace ListaProduktow
     public partial class ManageProduct : ContentPage
     {
         private Produkt wybranyProdukt;
-        private ObservableCollection<Produkt> produkty = new ObservableCollection<Produkt>();
-        public ManageProduct(ObservableCollection<Produkt> produkty)
+        private List<Produkt> produkty = new List<Produkt>();
+        public ManageProduct(List<Produkt> produkty)
         {
             InitializeComponent();
             this.produkty = produkty;
@@ -40,7 +40,7 @@ namespace ListaProduktow
                 if (int.TryParse(entryIlosc.Text, out int _) && decimal.TryParse(entryCena.Text, out decimal _))
                 {
                     var produkt = new Produkt(entryNazwa.Text, decimal.Parse(entryCena.Text), int.Parse(entryIlosc.Text));
-                    Plik.WriteToFile(produkt);
+                    Plik.WriteToFile(produkty);
                     Navigation.PopAsync();
                 }
                 else
