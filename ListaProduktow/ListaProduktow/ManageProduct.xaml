@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ListaProduktow.ManageProdukt">
+             x:Class="ListaProduktow.ManageProduct">
     <ContentPage.Content>
         <StackLayout HorizontalOptions="Center">
             <Label x:Name="labelTytul" Text="Dodaj produkt" TextColor="Black" FontSize="30" HorizontalOptions="Center" Margin="0,30,0,40"/>
